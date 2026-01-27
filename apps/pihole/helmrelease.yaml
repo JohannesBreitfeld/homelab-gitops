@@ -1,0 +1,79 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: pihole
+      version: "2.22.x"
+      sourceRef:
+        kind: HelmRepository
+        name: mojo2600
+        namespace: flux-system
+      interval: 12h
+  values:
+    # Admin password - change this!
+    adminPassword: "changeme"
+
+    # DNS settings
+    DNS1: "1.1.1.1"  # Cloudflare
+    DNS2: "1.0.0.1"  # Cloudflare backup
+
+    # Service configuration
+    serviceDns:
+      type: LoadBalancer
+      # Get an IP from ServiceLB (Klipper)
+      # This will be your DNS server IP
+      annotations: {}
+
+    serviceWeb:
+      type: ClusterIP
+      # Web interface - access via port-forward or ingress
+
+    # Persistence for Pi-hole data
+    persistentVolumeClaim:
+      enabled: true
+      storageClass: longhorn
+      size: 1Gi
+
+    # Resource limits
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # Ingress (disabled by default)
+    ingress:
+      enabled: false
+      # To enable later:
+      # ingressClassName: traefik
+      # hosts:
+      #   - pihole.homelab.local
+      # tls:
+      #   - secretName: pihole-tls
+      #     hosts:
+      #       - pihole.homelab.local
+      # annotations:
+      #   cert-manager.io/cluster-issuer: letsencrypt-staging
+
+    # Additional blocklists (optional)
+    adlists:
+      # Add custom blocklists here
+      # https://firebog.net/ has good lists
+
+    # Whitelist domains (optional)
+    whitelist:
+      # Add domains you want to always allow
+      # - example.com
+
+    # Regex blocklist (optional)
+    regex:
+      # Add regex patterns for blocking
+      # - '(\.|^)doubleclick\.net$'

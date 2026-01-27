@@ -1,0 +1,112 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "57.x"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 12h
+  values:
+    # Prometheus configuration
+    prometheus:
+      prometheusSpec:
+        # Retention period
+        retention: 30d
+        # Resource limits
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        # Storage for metrics
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 50Gi
+
+    # Grafana configuration
+    grafana:
+      enabled: true
+      adminPassword: prom-operator  # Change this in production!
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      # Persistence for dashboards
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 10Gi
+      # Ingress (disabled by default)
+      ingress:
+        enabled: false
+        # To enable later:
+        # ingressClassName: traefik
+        # hosts:
+        #   - grafana.homelab.local
+        # tls:
+        #   - secretName: grafana-tls
+        #     hosts:
+        #       - grafana.homelab.local
+        # annotations:
+        #   cert-manager.io/cluster-issuer: letsencrypt-staging
+
+    # Alert Manager
+    alertmanager:
+      enabled: true
+      alertmanagerSpec:
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 10Gi
+
+    # Node Exporter (metrics from nodes)
+    nodeExporter:
+      enabled: true
+
+    # Kube State Metrics
+    kubeStateMetrics:
+      enabled: true
+
+    # Disable some components not needed for homelab
+    kubeApiServer:
+      enabled: true
+    kubelet:
+      enabled: true
+    kubeControllerManager:
+      enabled: false  # Not accessible in k3s
+    kubeScheduler:
+      enabled: false  # Not accessible in k3s
+    kubeProxy:
+      enabled: false  # k3s doesn't use kube-proxy
+    kubeEtcd:
+      enabled: false  # Not accessible in k3s

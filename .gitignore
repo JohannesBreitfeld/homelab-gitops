@@ -1,0 +1,21 @@
+# Flux CD generates these - don't commit
+# clusters/homelab/flux-system/
+
+# Secrets (use Sealed Secrets or external-secrets instead)
+*.secret.yaml
+*-secret.yaml
+secret-*.yaml
+
+# Temp files
+*.tmp
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
