@@ -18,6 +18,10 @@ spec:
     architecture: standalone
     auth:
       enabled: false
+    image:
+      registry: docker.io
+      repository: bitnami/redis
+      tag: 7.4
     master:
       persistence:
         enabled: false
