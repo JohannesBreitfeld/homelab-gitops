@@ -1,0 +1,87 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jobrecon
+  namespace: jobrecon
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: deploy/helm/jobrecon
+      sourceRef:
+        kind: GitRepository
+        name: jobrecon
+        namespace: flux-system
+      interval: 5m
+  valuesFrom:
+    - kind: ConfigMap
+      name: jobrecon-images
+      valuesKey: values-images.yaml
+  values:
+    global:
+      image:
+        registry: ghcr.io
+        owner: johannesbreitfeld
+
+    # All 1 replica for homelab
+    identity:
+      replicaCount: 1
+    profile:
+      replicaCount: 1
+    jobs:
+      replicaCount: 1
+    matching:
+      replicaCount: 1
+    notifications:
+      replicaCount: 1
+    gateway:
+      replicaCount: 1
+      ingress:
+        enabled: true
+        className: traefik
+        hosts:
+          - host: api.jobrecon.local
+            paths:
+              - path: /
+                pathType: Prefix
+    frontend:
+      replicaCount: 1
+      ingress:
+        enabled: true
+        className: traefik
+        hosts:
+          - host: jobrecon.local
+            paths:
+              - path: /
+                pathType: Prefix
+
+    # Use external SOPS-managed secrets
+    secrets:
+      create: false
+
+    # Infrastructure service endpoints (in same namespace)
+    infrastructure:
+      postgresql:
+        host: postgresql
+        port: 5432
+      mongodb:
+        host: mongodb
+        port: 27017
+      redis:
+        host: redis-master
+        port: 6379
+      rabbitmq:
+        host: rabbitmq
+        port: 5672
+      qdrant:
+        host: qdrant
+        ports:
+          http: 6333
+          grpc: 6334
+      minio:
+        host: minio
+        port: 9000
+      ollama:
+        host: ollama
+        port: 11434

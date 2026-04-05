@@ -6,3 +6,4 @@ resources:
   - cert-manager    # TLS certificates
   - longhorn        # Persistent storage
   - monitoring      # Prometheus + Grafana
+  - jobrecon-deps   # JobRecon infrastructure (databases, brokers)

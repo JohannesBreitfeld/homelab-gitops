@@ -34,3 +34,31 @@ metadata:
 spec:
   interval: 1h
   url: https://mojo2600.github.io/pihole-kubernetes
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bitnami
+  namespace: flux-system
+spec:
+  interval: 1h
+  type: oci
+  url: oci://registry-1.docker.io/bitnamicharts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: minio
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://charts.min.io/
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: qdrant
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://qdrant.github.io/qdrant-helm

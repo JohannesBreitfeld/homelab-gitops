@@ -14,6 +14,10 @@ spec:
   path: ./apps
   prune: true
   wait: false  # Don't wait for apps, they depend on infrastructure
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   # Apps depend on infrastructure being ready
   dependsOn:
     - name: infrastructure

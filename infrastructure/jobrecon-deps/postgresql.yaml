@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgresql
+  namespace: jobrecon
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: postgresql
+      version: "16.x"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  values:
+    auth:
+      username: jobrecon
+      database: jobrecon
+      existingSecret: jobrecon-infra-secrets
+      secretKeys:
+        adminPasswordKey: postgres-admin-password
+        userPasswordKey: postgres-password
+    primary:
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 5Gi
+      resources:
+        requests:
+          cpu: 250m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+      initdb:
+        scripts:
+          init-schemas.sql: |
+            -- Create schemas for each service
+            CREATE SCHEMA IF NOT EXISTS identity;
+            CREATE SCHEMA IF NOT EXISTS profile;
+            CREATE SCHEMA IF NOT EXISTS jobs;
+            CREATE SCHEMA IF NOT EXISTS notifications;
+            -- Grant usage to the app user
+            GRANT ALL ON SCHEMA identity TO jobrecon;
+            GRANT ALL ON SCHEMA profile TO jobrecon;
+            GRANT ALL ON SCHEMA jobs TO jobrecon;
+            GRANT ALL ON SCHEMA notifications TO jobrecon;
