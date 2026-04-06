@@ -15,6 +15,10 @@ spec:
         name: bitnami
         namespace: flux-system
   values:
+    image:
+      registry: docker.io
+      repository: bitnami/mongodb
+      tag: latest
     architecture: standalone
     auth:
       enabled: true

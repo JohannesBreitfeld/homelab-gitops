@@ -15,6 +15,10 @@ spec:
         name: bitnami
         namespace: flux-system
   values:
+    image:
+      registry: docker.io
+      repository: bitnami/rabbitmq
+      tag: latest
     auth:
       username: jobrecon
       existingPasswordSecret: jobrecon-infra-secrets
