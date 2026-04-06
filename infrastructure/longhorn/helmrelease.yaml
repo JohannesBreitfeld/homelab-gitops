@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: "1.6.x"
+      version: "1.8.x"
       sourceRef:
         kind: HelmRepository
         name: longhorn
@@ -25,7 +25,9 @@ spec:
       # Backup target (optional - configure S3/NFS later)
       backupTarget: ""
       # Upgrade checker
-      upgradeChecker: true
+      upgradeChecker: false
+      # Reduce CPU reservation for homelab
+      guaranteedInstanceManagerCPU: 5
 
     # Longhorn UI ingress (disabled by default)
     ingress:
