@@ -17,7 +17,7 @@ spec:
   values:
     image:
       registry: docker.io
-      repository: bitnami/rabbitmq
+      repository: bitnamilegacy/rabbitmq
       tag: latest
     auth:
       username: jobrecon
