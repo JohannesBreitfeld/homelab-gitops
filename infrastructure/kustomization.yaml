@@ -5,5 +5,5 @@ resources:
   # Install in order:
   - cert-manager    # TLS certificates
   - longhorn        # Persistent storage
-  - monitoring      # Prometheus + Grafana
+  # - monitoring      # Prometheus + Grafana (disabled - chart timeout, fix later)
   - jobrecon-deps   # JobRecon infrastructure (databases, brokers)
