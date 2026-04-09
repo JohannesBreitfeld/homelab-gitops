@@ -6,7 +6,7 @@ identity:
     tag: "main"
 profile:
   image:
-    tag: "sha-bfe2053c"
+    tag: "sha-bfe2053"
 jobs:
   image:
     tag: "main"
