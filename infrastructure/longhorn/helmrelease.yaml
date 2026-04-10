@@ -29,6 +29,9 @@ spec:
       # Reduce CPU reservation for homelab
       guaranteedInstanceManagerCPU: 5
 
+    persistence:
+      defaultClassReplicaCount: 2
+
     # Longhorn UI ingress (disabled by default)
     ingress:
       enabled: false
