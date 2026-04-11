@@ -5,4 +5,4 @@ namespace: longhorn-system
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - storageclass.yaml
+  # - storageclass.yaml  # StorageClass params are immutable; replica count set via defaultSettings.defaultReplicaCount in HelmRelease
