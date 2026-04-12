@@ -9,13 +9,13 @@ profile:
     tag: "sha-6e4fa46"
 jobs:
   image:
-    tag: "sha-ba9dbbb"
+    tag: "sha-54ab8ec"
 matching:
   image:
     tag: "main"
 notifications:
   image:
-    tag: "sha-ba9dbbb"
+    tag: "sha-54ab8ec"
 gateway:
   image:
     tag: "main"
