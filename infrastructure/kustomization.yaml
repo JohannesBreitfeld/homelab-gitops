@@ -6,4 +6,5 @@ resources:
   - cert-manager    # TLS certificates
   - longhorn        # Persistent storage
   # - monitoring      # Prometheus + Grafana (disabled - chart timeout, fix later)
+  - cloudflared     # Cloudflare Tunnel (public HTTPS ingress)
   - jobrecon-deps   # JobRecon infrastructure (databases, brokers)
