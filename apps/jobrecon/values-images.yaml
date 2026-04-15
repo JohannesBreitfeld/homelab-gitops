@@ -21,4 +21,4 @@ gateway:
     tag: "main"
 frontend:
   image:
-    tag: "main"
+    tag: "sha-a04393f"
