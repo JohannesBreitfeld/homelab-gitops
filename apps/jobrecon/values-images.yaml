@@ -15,7 +15,7 @@ matching:
     tag: "sha-142056a"
 notifications:
   image:
-    tag: "sha-54ab8ec"
+    tag: "sha-f47fdbe"
 gateway:
   image:
     tag: "main"
