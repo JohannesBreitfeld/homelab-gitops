@@ -9,7 +9,7 @@ profile:
     tag: "sha-6e4fa46"
 jobs:
   image:
-    tag: "sha-69c1cad"
+    tag: "sha-8adc81e"
 matching:
   image:
     tag: "sha-142056a"
