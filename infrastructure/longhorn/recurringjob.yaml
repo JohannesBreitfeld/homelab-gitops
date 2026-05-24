@@ -1,0 +1,23 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: jobrecon-daily
+  namespace: longhorn-system
+spec:
+  name: jobrecon-daily
+  cron: "0 3 * * *"
+  task: backup
+  groups:
+    - jobrecon-daily
+  retain: 7
+  concurrency: 2
+  labels:
+    purpose: daily-db-backup
+# Volumes are attached to this job by labeling the longhorn.io/v1beta2 Volume
+# resource (NOT the PVC) with: recurringjob-group.longhorn.io/jobrecon-daily=enabled
+# Currently applied to: postgresql-0 (pvc-b9cb5401...) and qdrant-0 (pvc-8d83a13c...).
+# Volume labels are imperative (Longhorn Volumes are dynamic) — re-apply if a PVC is
+# recreated:
+#   kubectl label volume.longhorn.io <vol> -n longhorn-system \
+#     recurringjob-group.longhorn.io/jobrecon-daily=enabled --overwrite
