@@ -1,0 +1,7 @@
+# SOPS-encrypted files must keep LF line endings — Flux's sops controller
+# fails to decrypt files that have CRLF (autocrlf=true on Windows breaks this).
+*.sops.yaml text eol=lf
+
+# YAML manifests should be LF-only across platforms.
+*.yaml text eol=lf
+*.yml text eol=lf
