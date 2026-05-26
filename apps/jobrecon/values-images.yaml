@@ -12,7 +12,7 @@ jobs:
     tag: "sha-8ebb0c1"
 matching:
   image:
-    tag: "sha-142056a"
+    tag: "sha-bbee7ea"
 notifications:
   image:
     tag: "sha-f47fdbe"
